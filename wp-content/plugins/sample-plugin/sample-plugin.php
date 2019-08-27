@@ -37,15 +37,35 @@ function dip_remove_shake_js(){
     remove_action( 'login_head', 'wp_shake_js', 12 );
 }
 
-add_action('login_head', 'dip_take_out_trash');
+add_action('login_head', 'take_out_trash'); // default priority value is 10, even when its not define
 add_action('login_head', 'feed_the_cat', 10);
 add_action('login_head', 'do_groceries', 10);
 add_action('login_head', 'make_breakfast', 7);
 
 function dip_take_out_trash(){
-    echo '<h1>empty trash bin</h1>';
+    remove_action( 'login_head', 'take_out_trash');
 }
 
-function sip_take_out_trash(){
-    remove_action
+add_filter('login_headerurl', 'dip_modify_headerurl');
+/**
+ * return the replacement headerurl
+ */
+function dip_modify_headerurl(){
+    return 'www.bc.fi';
+}
+
+add_filter('login_errors', 'dip_modify_error_message');
+/**
+ * modify the error message so that it wouldn't review
+ * confidential info by mistake
+ */
+function dip_modify_error_message(){
+    return ' you can always come back later';
+}
+
+
+add_action('login_enqueue_scripts', 'dip_modify_stylesheet_loginpage');
+
+function dip_modify_stylesheet_loginpage(){
+    wp_enqueue_style('inject-custom-style', plugin_dir_url(__file__) . 'css/custom-stylesheet.css');
 }
