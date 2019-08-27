@@ -428,7 +428,7 @@ function wccp_default_options(){
 			'home_css_protection' => 'Enabled', // premium option
 			'posts_css_protection' => 'Enabled', // premium option
 			'pages_css_protection' => 'Enabled', // premium option
-			'exclude_admin_from_protection' => 'No',
+			'exclude_admin_from_protection' => 'Enabled',
 			'img' => '',
 			'a' => '',
 			'pb' => '',
