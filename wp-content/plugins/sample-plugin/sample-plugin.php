@@ -69,3 +69,27 @@ add_action('login_enqueue_scripts', 'dip_modify_stylesheet_loginpage');
 function dip_modify_stylesheet_loginpage(){
     wp_enqueue_style('inject-custom-style', plugin_dir_url(__file__) . 'css/custom-stylesheet.css');
 }
+
+/**
+ * Redirect user after successful login.
+ *
+ * @param string $redirect_to URL to redirect to.
+ * @param string $request URL the user is coming from.
+ * @param object $user Logged user's data.
+ * @return string
+ */
+
+function my_login_redirect( $redirect_to, $request, $user ) {
+    //is there a user to check?
+    if (isset($user->roles) && is_array($user->roles)) {
+        //check for subscribers
+        if (in_array('subscriber', $user->roles)) {
+            // redirect them to another URL, in this case, the homepage 
+            $redirect_to =  home_url();
+        }
+    }
+
+    return $redirect_to;
+}
+
+add_filter( 'login_redirect', 'my_login_redirect', 10, 3 );
